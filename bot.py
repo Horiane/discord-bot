@@ -40,7 +40,7 @@ async def on_message(message): # Runs the on_message API call
         return
     #* Output commands availible
     elif message.content.lower().startswith(commandPrefix + "commands"): #Checks to see if  message starting with !commands is sent
-        emb = Embed(color = Color.blue(), title="Bot Functions", description=f"All of the commands and functions(command prefix is '!'):\n-Auto delete swear words\n-'!ping' to check client latency\n-'!dice' rolls dice\n-'!rps [your choice (r,p,s)].") #Creates an embedded message
+        emb = Embed(color = Color.blue(), title="Bot Functions", description=f"All of the commands and functions(command prefix is '!'):\n-Auto delete swear words\n-'!ping' to check client latency\n-'!dice' rolls dice\n-'!rps [your choice], ex. !rps rock") #Creates an embedded message
         await message.channel.send(embed=emb)
     #* Ping pong game with latency check
     elif message.content.lower().startswith(commandPrefix + "ping"):
