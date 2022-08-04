@@ -55,25 +55,25 @@ async def on_message(message): # Runs the on_message API call
         comchoice=rnd[randint(0,2)]
         #Does the computer win?
         if comchoice=="r" and humchoice=="s":
-            await message.channel.send("Computer wins!\nYou choosed scissors, the computer choosed rock.")
+            await message.channel.send("You choose scissors.\nI choosed rock.\n**Computer wins!**")
         elif comchoice=="p" and humchoice=="r":
-            await message.channel.send("Computer wins!\nYou choosed rock, the computer choosed paper.")
+            await message.channel.send("You choose rock.\nI choosed paper.\n**Computer wins!**")
         elif comchoice=="s" and humchoice=="p":
-            await message.channel.send("Computer wins!\nYou choosed paper, the computer choosed scissors.")
+            await message.channel.send("You choose paper.\nI choose scissors.\n**Computer wins!**")
         #Does the human win?
         elif humchoice=="r" and comchoice=="s":
-            await message.channel.send("You win!\nYou choosed rock, the computer choosed scissors.")
+            await message.channel.send( "You choose rock.\nI choose scissors.\n**You win!**")
         elif humchoice=="p" and comchoice=="r":
-            await message.channel.send("You win!\nYou choosed paper, the computer choosed rock.")
+            await message.channel.send("You choose paper.\nI choosed rock.\n**You win!**")
         elif humchoice=="s" and comchoice=="p":
-            await message.channel.send("You win!\nYou choosed scissor, the computer choosed paper.")
+            await message.channel.send("You choose scissor.\nI choose paper.\n**You win!**")
         #Does they draw?
         elif humchoice=="s" and comchoice=="s":
-            await message.channel.send("Draw!\nYou choosed scissors, the computer choosed scissor too!")
+            await message.channel.send("You choose scissors.\nI choose scissor.\n**Draw!**")
         elif humchoice=="p" and comchoice=="p":
-            await message.channel.send("Draw!\nYou choosed paper, the computer choosed paper too!")
+            await message.channel.send("You choose paper.\nI choose paper.\n**Draw!**")
         elif humchoice=="r" and comchoice=="r":
-            await message.channel.send("Draw!\nYou choosed rock, the computer choosed rock too!")
+            await message.channel.send("You choose rock.\nI choose rock.\n**Draw!**")
     #*Stores user message
     msgCheck = message.content.lower()
     #*Swear word filter (could add more words) enough for now
