@@ -55,11 +55,11 @@ async def on_message(message): # Runs the on_message API call
         comchoice=rnd[randint(0,2)]
         #Does the computer win?
         if comchoice=="r" and humchoice=="s":
-            await message.channel.send("You choose scissors.\nI choosed rock.\n**Computer wins!**")
+            await message.channel.send("You choose scissors.\nI choosed rock.\n**I win!**")
         elif comchoice=="p" and humchoice=="r":
-            await message.channel.send("You choose rock.\nI choosed paper.\n**Computer wins!**")
+            await message.channel.send("You choose rock.\nI choosed paper.\n**I win!**")
         elif comchoice=="s" and humchoice=="p":
-            await message.channel.send("You choose paper.\nI choose scissors.\n**Computer wins!**")
+            await message.channel.send("You choose paper.\nI choose scissors.\n**I win!**")
         #Does the human win?
         elif humchoice=="r" and comchoice=="s":
             await message.channel.send( "You choose rock.\nI choose scissors.\n**You win!**")
