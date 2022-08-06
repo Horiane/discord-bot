@@ -8,7 +8,7 @@ from asyncio import TimeoutError, sleep # Used when waiting x time for a respons
 from random import randint, choice #Used to make random choices
 from giphy_client import DefaultApi # Imports the giphy client
 from giphy_client.rest import ApiException # Used when handling API errors
-import random
+from deck import cardDeck
 #? Opening banned words
 with open('BadWords.txt', 'r') as f:
     words = f.read()
@@ -22,6 +22,7 @@ GIPHY_TOKEN = getenv('GIPHY_TOKEN')
 welcomeChannelID = 997500329262333982
 reactionMessageID = 999697327180759244
 commandPrefix = "!"#Command prefix
+
 #?--- Intents ---
 intents = Intents.default() # Sets up intents with default settings, these  are used to get higher level accsess to the API
 intents.members = True # Enables the members intent, which allows us to mention/ping users
@@ -31,20 +32,23 @@ intents.members = True # Enables the members intent, which allows us to mention/
 client = Client(intents=intents)
 #fuctions
 def card():
-    global random_card
-    global random_card1
-    deck="23456789TJQKA"
-    random_card=random.choice(deck)
-    if random_card=="T" or random_card=="J" or random_card=="K" or random_card=="Q":
-        random_card=10
-    elif random_card=="A":
-        random_card=11
-    deck="23456789TJQKA"
-    random_card1=random.choice(deck)
-    if random_card1=="T" or random_card1=="J" or random_card1=="K" or random_card1=="Q":
-        random_card1=10
-    elif random_card1=="A":
-        random_card1=11
+    global playerCards,playerValue,dealerCards,dealerValue
+    playerCards,playerValue=choice(list(cardDeck.items()))
+    del cardDeck[playerCards]
+    dealerCards,dealerValue=choice(list(cardDeck.items()))
+    del cardDeck[dealerCards]
+    print(playerCards,playerValue,dealerCards,dealerValue)
+    return playerCards,playerValue,dealerCards,dealerValue
+
+
+def blackjack():
+    global playerValue,dealerValue,emb1,dealerPoints,playerPoints
+    playerPoints=0
+    dealerPoints=0
+    card()
+    emb1=Embed(color = Color.blue(), title="Bot Functions", description=f"You pulled out a:\n" + playerCards + " worth " + str(playerValue) + " points" + "\nDealer pulled out a:\n" + dealerCards + " worth " + str(dealerValue) + " points")
+    
+        
 #?--- Events ---
 #? Performs actions based on keywords in user messages
 @client.event # Starts an event
@@ -90,13 +94,46 @@ async def on_message(message): # Runs the on_message API call
             await message.channel.send("You choose rock.\nI choose rock.\n**Draw!**")
     elif message.content.lower().startswith(commandPrefix + "bj") or message.content.lower().startswith(commandPrefix + "blackjack"):
         await message.channel.send("The command is WIP, it may not work as intended")
-        playerPoints=0
-        dealerPoints=0
-        card()
-        playerPoints+=int(random_card)
-        dealerPoints+=int(random_card1)
-        emb1 = Embed(color = Color.blue(), title="Black Jack", description="Player:\n" + str(random_card) + "\nTotal:\n" + str(playerPoints) + "\nDealer:\n" + str(random_card1) + "\nTotal:\n" + str(dealerPoints))#Creates an embedded message
-        await message.channel.send(embed=emb1)
+        blackjack()
+        message = await message.channel.send(embed=emb1)
+        message_id = message.id
+        await message.add_reaction("👊")
+        await message.add_reaction("🛑")
+        #wip
+        #? Reaction roles, assigns role based on message reactions
+        #@client.event
+        #async def on_raw_reaction_add(payload):# Checks for reactions being removed from a message
+        #    server = client.get_guild(payload.guild_id) # Gets the server ID
+        #    
+        #    if payload.message_id == reactionMessageID: # Checks if the ID of the message matches the reaction roles message ID
+        #        role = None # Sets the role variable to None (empty)
+        #        if payload.emoji.name == "👊": # Checks if the reaction emoji matches this emoji     
+        #            playerPoints += playerValue
+        #            dealerPoints += dealerValue
+        #            emb2=Embed("You pulled out a:\n" + playerCards + " worth " + str(playerValue) + " points" + "You still have " + playerPoints + "\nDealer have a:\n" + dealerCards + " worth " + str(dealerValue) + " points")
+        #            await message.edit(embed=emb2)      
+        #        elif payload.emoji.name == "🛑":
+        #            pass
+        ##? Reaction roles, removes role based on message reactions
+        #@client.event
+        #async def on_raw_reaction_remove(payload): # Checks for reactions being removed from a message and gets the payload wich contains all the infomation about the event
+        #    pass
+        #    server = client.get_guild(payload.guild_id) # Gets the server ID
+
+        #    if payload.message_id == reactionMessageID: # Checks if the ID of the message matches the reaction roles message ID
+        #        role = None
+
+        #        if payload.emoji.name == "🎮": # Checks if the reaction emoji matches this emoji
+        #            role = get(server.roles, name = "Roblox Player") #Gets the role from the server
+        #        
+        #        elif payload.emoji.name == "🎵":
+        #            role = get(server.roles, name = "Music Lover")
+        #        
+        #        if role is not None: # Makes sure a role has been assigned to the role variable
+        #            member = server.get_member(payload.user_id) # Gets the ID of the user who removed the emoji
+        #            if member is not None: #Makes sure the member is still in the server
+        #                await member.remove_roles(role) # Removes the role from the user
+
     #*Stores user message
     msgCheck = message.content.lower()
     #*Swear word filter (could add more words) enough for now
