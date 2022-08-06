@@ -46,7 +46,7 @@ def blackjack():
     playerPoints=0
     dealerPoints=0
     card()
-    emb1=Embed(color = Color.blue(), title="Bot Functions", description=f"You pulled out a:\n" + playerCards + " worth " + str(playerValue) + " points" + "\nDealer pulled out a:\n" + dealerCards + " worth " + str(dealerValue) + " points")
+    emb1=Embed(color = Color.blue(), title="Bot Functions", description=f"You pulled out a:\n" + playerCards + "\nDealer pulled out a:\n" + dealerCards)
     
         
 #?--- Events ---
@@ -110,7 +110,6 @@ async def on_message(message): # Runs the on_message API call
         #        if payload.emoji.name == "👊": # Checks if the reaction emoji matches this emoji     
         #            playerPoints += playerValue
         #            dealerPoints += dealerValue
-        #            emb2=Embed("You pulled out a:\n" + playerCards + " worth " + str(playerValue) + " points" + "You still have " + playerPoints + "\nDealer have a:\n" + dealerCards + " worth " + str(dealerValue) + " points")
         #            await message.edit(embed=emb2)      
         #        elif payload.emoji.name == "🛑":
         #            pass
